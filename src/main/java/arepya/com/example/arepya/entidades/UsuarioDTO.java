@@ -1,5 +1,6 @@
 package arepya.com.example.arepya.entidades;
 
+// Se crea la clase UsuariosDTO para recibir el cuerpo del mensaje que llega desde el front
 public class UsuarioDTO {
     private Integer id;
 

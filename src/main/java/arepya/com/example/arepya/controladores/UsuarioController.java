@@ -17,6 +17,8 @@ public class UsuarioController {
 
     @Autowired
     private UsuariosRepositorio repositorioUsuario;
+
+    // Servicio para hacer autenticacion de usuario con contraseña
     @PostMapping("/autenticar-usuario")
     public ResponseEntity autenticarUsuario(@RequestBody UsuarioDTO usuarioAutenticar) {
         Optional<Usuario> consultaUsuario = repositorioUsuario.findByNombreusuario(usuarioAutenticar.getNombreusuario());
@@ -29,11 +31,15 @@ public class UsuarioController {
         }
         return ResponseEntity.notFound().build();
     }
+
+    // Servicio para obtener un usuario con su identificador
     @GetMapping("/usuario/{identificacion}")
     public Usuario buscarUsuario(@PathVariable Integer identificacion) {
         Usuario u = repositorioUsuario.obtenerUsuario(identificacion);
         return u;
     }
+
+    // Servicio para realizar el guardado de un usuario
     @PostMapping("/guardar-usuario")
     public Usuario guardarUsuario(@RequestBody UsuarioDTO usuarioNuevo) {
         System.out.println(usuarioNuevo.getNombreusuario());
@@ -43,6 +49,32 @@ public class UsuarioController {
         System.out.print(u.getNombre());
         Usuario respuesta = repositorioUsuario.save(u);
         return respuesta;
+    }
+
+    // Servicio para realizar la eliminación de su usuario por medio de su id
+    @DeleteMapping("/eliminar-usuario/{idUsuario}")
+    public boolean eliminarUsuario(@PathVariable Integer idUsuario) {
+        Usuario usuarioEliminar = new Usuario();
+        usuarioEliminar.setId(idUsuario);
+        try {
+            repositorioUsuario.delete(usuarioEliminar);
+            return true;
+        } catch (Error error) {
+            System.out.println(error);
+            return false;
+        }
+    }
+
+    // Servico para actualizar un usuario con el cuerpo de datos enviado en la peticion put
+    @PutMapping("/actualizar-usuario")
+    public ResponseEntity actualizarUsuario(@RequestBody UsuarioDTO usuarioDto) {
+        if (usuarioDto.getId() == null) {
+            return ResponseEntity.badRequest().body("Para actualizar usuario debe proporcionar su id");
+        }
+        Usuario usuarioActualizar = new Usuario();
+        BeanUtils.copyProperties(usuarioDto, usuarioActualizar);
+        Usuario result = repositorioUsuario.save(usuarioActualizar);
+        return  ResponseEntity.ok(result);
     }
 
 }

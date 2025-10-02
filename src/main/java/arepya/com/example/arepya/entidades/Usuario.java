@@ -4,7 +4,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-
+// Se crea la clase Usuarios que hace referencia a la tabla usuarios de la base de datos
 @Table("usuarios")
 public class Usuario {
     @Id
