@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
+// Se crea el controllador UserController para exponer los endpoints de los servicios CRUD para la tabla users
 @RestController
 public class UsuarioController {
 
